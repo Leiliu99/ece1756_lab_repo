@@ -1,0 +1,36 @@
+files needed for the tool:
+    1. makefile //this makefile regularized the method to build
+    2. main.cpp //this file takes in command's input, decide different tool modes, and generate ouput file
+    3. circuit.h //this header file define all the structures needed
+    4. circuit.cpp //this file contains the core part of the tool: take in structure, analyze, compute, generate result, and store back to the structure
+
+make sure the file mentioned above are put in the same directory
+make sure the input file, logic_block_cout.txt and logical_rams.txt are also present in the same directory
+
+how to build the tool:
+    make all
+This will generate the executable file: mapping
+
+how to run the tool:
+    1. for Stratix-IV like architecture
+        ./mapping 1
+        this will generate the results in "mapping_STRATXIV.txt"
+    2. for one type of BRAM, no lutram structure
+        ./mapping 2 <BRAM size> <max width> <ratio>
+        this will generate the results in "mapping_NOLUTRAM_<BRAM size>_<max width>_<ratio>.txt"
+    3. for one type of BRAM, 50% support of lutram structure
+        ./ mapping 3 <BRAM size> <max width> <ratio>
+        this will generate the results in "mapping_WITHLUTRAM_<BRAM size>_<max width>_<ratio>.txt"
+    4. for custom structure, you can only generate results for two BRAMs and a lutram support
+        ./ mapping 4 <lutram ratio> <BRAM1 size> <max width 1> <ratio 1> <BRAM2 size> <max width 2> <raito 2>
+        this will generate the results in "mapping_MBWITHLUTRAM_<lutram ratio>_<BRAM1 size>_<max width 1>_<ratio 1>_<BRAM2 size>_<max width 2>_<ratio 2>.txt"
+
+        <lutram ratio> is designed to pass in the inverse of the percentage.
+        For example, 1/3 support of lutram: <lutram ratio> = 3, which stands for "-l 2 1" in checker.
+
+* The input argument<1~4> are designed to indicate the type of structure. 
+* Given the type of the structure, the tool will check the corresponding number of arguments required. 
+*   If less arguments provided: the tool will prompt an error message and quit
+    If more arguments provided: the tool will take the number of arguments needed, and ignore the rest
+* Make sure the order of each argument match the above description. The tool could not handle miss-order inputs.
+* Make sure the value of each argument is valid. The tool could not handle wrong type of inputs.
